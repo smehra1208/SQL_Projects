@@ -76,170 +76,31 @@ SELECT * FROM inventory;
 If you encounter a UTF encoding error during import, simply re-save the CSV file in **CSV UTF-8 format**. This will resolve the issue.  
 ```
 
-## Step 1: Data Exploration  
+## 3. 🔍 Data Exploration  
+- Counted the total number of records in the dataset.  
+- Previewed a sample of rows to understand the data structure and content.  
+- Checked for null values across all columns.  
+- Extracted distinct product categories available in the dataset.  
+- Compared counts of in-stock vs out-of-stock products.  
+- Detected duplicate product listings across SKUs and categories.  
 
-## 1. Count the total number of records in the dataset  
-```sql
-SELECT COUNT(*)  
-FROM inventory;
+---
 
-SELECT *  
-FROM inventory  
-LIMIT 10;
+## 4. 🧹 Data Cleaning  
+- Removed rows where `mrp` or `discountedSellingPrice` was zero.  
+- Standardized pricing by converting `mrp` and `discountedSellingPrice` from **paise to rupees** for consistency and readability.  
 
-SELECT *  
-FROM inventory  
-WHERE sku_id IS NULL  
-   OR category IS NULL  
-   OR name IS NULL  
-   OR mrp IS NULL  
-   OR discountPercent IS NULL  
-   OR availableQuantity IS NULL  
-   OR discountedSellingPrice IS NULL  
-   OR weightInGms IS NULL  
-   OR outOfStock IS NULL  
-   OR quantity IS NULL;
+---
 
-SELECT DISTINCT category  
-FROM inventory  
-ORDER BY category ASC;
-
-SELECT outOfStock, COUNT(*)  
-FROM inventory  
-GROUP BY outOfStock;
-
-SELECT name, category, COUNT(sku_id) AS No_of_SKUs  
-FROM inventory  
-GROUP BY name, category  
-HAVING COUNT(sku_id) > 1  
-ORDER BY name ASC, No_of_SKUs DESC;
-```
-
-### 3. Data Analysis & Findings
-
-The following SQL queries were developed to answer specific business questions:
-
-1. **Write a SQL query to retrieve all columns for sales made on '2022-11-05**:
-```sql
-SELECT *
-FROM retail_sales
-WHERE sale_date = '2022-11-05';
-```
-
-2. **Write a SQL query to retrieve all transactions where the category is 'Clothing' and the quantity sold is more than or equal to  4 in the month of Nov-2022**:
-```sql
-SELECT * 
-FROM retail_sales
-WHERE 
-	category = 'Clothing'
-	AND quantity >= 4
-	AND sale_date between '2022-11-01' and '2022-11-30';
-```
-
-3. **Write a SQL query to calculate the total sales (total_sale) for each category and find which category gets the highest sales.**:
-```sql
-SELECT category,
-	SUM(total_sale) as net_sales,
-	COUNT(quantity) as total_orders
-	FROM retail_sales
-GROUP BY category
-ORDER BY net_sales desc;
-```
-
-4. **Write a SQL query to find the average age of customers who purchased items from the 'Beauty' category.**:
-```sql
-SELECT 
-	ROUND(AVG(age),2) as avg_age_Beauty
-	FROM retail_sales
-WHERE category = 'Beauty';
-```
-
-5. **Write a SQL query to find all transactions where the total_sale is greater than 1000.**:
-```sql
-SELECT *
-	FROM retail_sales
-WHERE total_sale > 1000;
-```
-
-6. **Write a SQL query to find the total number of transactions (transaction_id) made by each gender in each category and find the highst one.**:
-```sql
-SELECT category, gender,
-	COUNT(transactions_id) as total_transactions
-	FROm retail_sales
-GROUP BY category, gender
-ORDER BY total_transactions desc;
-```
-
-7. **Write a SQL query to calculate the average sale for each month. Find out best selling month in each year**:
-```sql
-SELECT 
-		year, month, avg_sales
-	FROM 
-(
-	SELECT 
-		EXTRACT (Year from sale_date) as year,
-		EXTRACT (Month from sale_date) as month,
-		AVG(total_sale) as avg_sales,
-		RANK() OVER (PARTITION BY EXTRACT(YEAR FROM sale_date) ORDER BY AVG (total_sale) DESC)
-	FROM retail_sales
-	GROUP BY month, year
-) as t1
-WHERE rank = 1;
-```
-
-8. **Write a SQL query to find the top 5 customers based on the highest total sales **:
-```sql
-SELECT 	
-		customer_id,
-		sum(total_sale) as total_sales
-	FROM retail_sales
-GROUP BY customer_id
-ORDER BY total_sales DESC
-LIMIT 5;
-```
-
-9. **Write a SQL query to find the number of unique customers who purchased items from each category.**:
-```sql
-SELECT 
-	category,
-	COUNT(DISTINCT customer_id)
-	FROM retail_sales
-GROUP BY category;
-```
-
-10. **Write a SQL query to create each shift and number of orders (Example Morning <12, Afternoon Between 12 & 17, Evening >17)**:
-```sql
-WITH hourly_sale
-AS
-(
-SELECT *,
-	CASE
-		WHEN EXTRACT (HOUR FROM sale_time) < 12 THEN 'Morning'
-		WHEN EXTRACT (HOUR FROM sale_time) BETWEEN 12 AND 17 THEN 'Afternoon'
-		ELSE 'Evening'
-	END as shift
-FROM retail_sales
-)
-SELECT 
-	shift,
-	COUNT(*) as total_orders
-FROM hourly_sale
-GROUP BY shift
-
-```
-
-## Findings
-
-- **Customer Demographics**: The dataset includes customers from various age groups, with sales distributed across different categories i.e  Electronics, Clothing and Beauty.
-- **High-Value Transactions**: Several transactions had a total sale amount greater than 1000, indicating premium purchases.
-- **Sales Trends**: Monthly analysis shows variations in sales, helping identify peak seasons.
-- **Customer Insights**: The analysis identifies the top-spending customers and the most popular product categories.
-
-## Reports
-
-- **Sales Summary**: A detailed report summarizing total sales, customer demographics, and category performance.
-- **Trend Analysis**: Insights into sales trends across different months and shifts.
-- **Customer Insights**: Reports on top customers and unique customer counts per category.
+## 5. 📊 Business Insights  
+- Identified the **Top 10 best-value products** based on highest discount percentage.  
+- Flagged **high-MRP products** that are currently out of stock.  
+- Estimated **potential revenue** for each product category.  
+- Filtered **expensive products (MRP > ₹500)** offering minimal discount.  
+- Ranked the **Top 5 categories** with the highest average discounts.  
+- Calculated **price per gram** to identify value-for-money products.  
+- Grouped products by weight into **Low, Medium, and Bulk** categories.  
+- Measured the **total inventory weight** per product category.  
 
 ## Conclusion
 
