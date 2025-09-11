@@ -2,8 +2,8 @@
 
 ## Project Overview
 
-## Project Title: Zepto Inventory  
-## Database: `zepto_inventory_db` 
+Project Title: Zepto Inventory  
+Database: `zepto_inventory_db` 
 
 ## Project Overview  
 
