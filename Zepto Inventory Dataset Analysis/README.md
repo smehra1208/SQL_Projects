@@ -76,29 +76,43 @@ SELECT * FROM inventory;
 If you encounter a UTF encoding error during import, simply re-save the CSV file in **CSV UTF-8 format**. This will resolve the issue.  
 ```
 
-### 2. Data Exploration & Cleaning
+## Step 1: Data Exploration  
 
-- **Record Count**: Determine the total number of records in the dataset.
-- **Customer Count**: Find out how many unique customers are in the dataset.
-- **Category Count**: Identify all unique product categories in the dataset.
-- **Null Value Check**: Check for any null values in the dataset and delete records with missing data.
-
+## 1. Count the total number of records in the dataset  
 ```sql
-SELECT COUNT(*) FROM retail_sales;
-SELECT COUNT(DISTINCT customer_id) FROM retail_sales;
-SELECT DISTINCT category FROM retail_sales;
+SELECT COUNT(*)  
+FROM inventory;
 
-SELECT * FROM retail_sales
-WHERE 
-    sale_date IS NULL OR sale_time IS NULL OR customer_id IS NULL OR 
-    gender IS NULL OR age IS NULL OR category IS NULL OR 
-    quantity IS NULL OR price_per_unit IS NULL OR cogs IS NULL;
+SELECT *  
+FROM inventory  
+LIMIT 10;
 
-DELETE FROM retail_sales
-WHERE 
-    sale_date IS NULL OR sale_time IS NULL OR customer_id IS NULL OR 
-    gender IS NULL OR category IS NULL OR 
-    quantity IS NULL OR price_per_unit IS NULL OR cogs IS NULL;
+SELECT *  
+FROM inventory  
+WHERE sku_id IS NULL  
+   OR category IS NULL  
+   OR name IS NULL  
+   OR mrp IS NULL  
+   OR discountPercent IS NULL  
+   OR availableQuantity IS NULL  
+   OR discountedSellingPrice IS NULL  
+   OR weightInGms IS NULL  
+   OR outOfStock IS NULL  
+   OR quantity IS NULL;
+
+SELECT DISTINCT category  
+FROM inventory  
+ORDER BY category ASC;
+
+SELECT outOfStock, COUNT(*)  
+FROM inventory  
+GROUP BY outOfStock;
+
+SELECT name, category, COUNT(sku_id) AS No_of_SKUs  
+FROM inventory  
+GROUP BY name, category  
+HAVING COUNT(sku_id) > 1  
+ORDER BY name ASC, No_of_SKUs DESC;
 ```
 
 ### 3. Data Analysis & Findings
