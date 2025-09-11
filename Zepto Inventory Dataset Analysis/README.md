@@ -76,7 +76,7 @@ SELECT * FROM inventory;
 If you encounter a UTF encoding error during import, simply re-save the CSV file in **CSV UTF-8 format**. This will resolve the issue.  
 ```
 
-## 3. 🔍 Data Exploration  
+## Step 2: Data Exploration  
 - Counted the total number of records in the dataset.  
 - Previewed a sample of rows to understand the data structure and content.  
 - Checked for null values across all columns.  
@@ -86,13 +86,13 @@ If you encounter a UTF encoding error during import, simply re-save the CSV file
 
 ---
 
-## 4. 🧹 Data Cleaning  
+## Step 3: Data Cleaning  
 - Removed rows where `mrp` or `discountedSellingPrice` was zero.  
 - Standardized pricing by converting `mrp` and `discountedSellingPrice` from **paise to rupees** for consistency and readability.  
 
 ---
 
-## 5. 📊 Business Insights  
+## Step 2: Business Insights  
 - Identified the **Top 10 best-value products** based on highest discount percentage.  
 - Flagged **high-MRP products** that are currently out of stock.  
 - Estimated **potential revenue** for each product category.  
