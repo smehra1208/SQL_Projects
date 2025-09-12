@@ -41,7 +41,7 @@ The dataset is sourced from **Kaggle** and originally scraped from **Zepto’s o
 ### 1. Database Setup
 
 - **Database Creation**: The project starts by creating a database named `zepto_inventory_db`.
-- **Table Creation**: A table named `zepto_inventory` is created to store the data. The table structure includes columns for sku_id, category, name, mrp, discountPercent, availableQuantity, discountedSellingPrice, weightInGms, outOfStock and quantity.
+- **Table Creation**: A table named `inventory` is created to store the data. The table structure includes columns for sku_id, category, name, mrp, discountPercent, availableQuantity, discountedSellingPrice, weightInGms, outOfStock and quantity.
 
 ```sql
 
