@@ -21,8 +21,8 @@ SELECT* FROM inventory;
 
 -- Populate the table with data by loading the csv file: using pgadmin's import feature
 
---Data Exploration
 
+--Data Exploration
 --1. Count the total number of records in the dataset
 SELECT COUNT(*)
 	FROM inventory
@@ -63,8 +63,8 @@ GROUP BY name, category
 HAVING count(sku_id) >1
 ORDER BY name ASC, No_of_SKUs DESC;
 
--- Data Cleaning
 
+-- Data Cleaning
 -- 1. Identify and remove rows where MRP or discounted selling price was zero
 SELECT * 
 	FROM inventory
