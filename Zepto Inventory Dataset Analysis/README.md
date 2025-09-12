@@ -41,7 +41,7 @@ The dataset is sourced from **Kaggle** and originally scraped from **Zepto’s o
 ### 1. Database Setup
 
 - **Database Creation**: The project starts by creating a database named `zepto_inventory_db`.
-- **Table Creation**: A table named `zepto_inventory` is created to store the data. The table structure includes columns for sku_id, category, name, mrp, discountPercent, availableQuantity, discountedSellingPrice, weightInGms, outOfStock and quantity.
+- **Table Creation**: A table named `inventory` is created to store the data. The table structure includes columns for sku_id, category, name, mrp, discountPercent, availableQuantity, discountedSellingPrice, weightInGms, outOfStock and quantity.
 
 ```sql
 
@@ -80,7 +80,7 @@ If you encounter a UTF encoding error during import, simply re-save the CSV file
 - Counted the total number of records in the dataset.  
 - Previewed a sample of rows to understand the data structure and content.  
 - Checked for null values across all columns.  
-- Extracted distinct product categories available in the dataset.  
+- Extracted distinct product categories. 
 - Compared counts of in-stock vs out-of-stock products.  
 - Detected duplicate product listings across SKUs and categories.  
 
